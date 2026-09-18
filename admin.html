@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | RaqGiveback</title>
+  <link rel="stylesheet" href="assets/css/raqgiveback.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">RAQ<span>Giveback</span></a>
+      <nav>
+        <a href="dashboard.html">My Dashboard</a>
+        <a href="#" data-sign-out>Sign Out</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="app-sidebar">
+      <div class="who">
+        <div class="name" id="side-name">...</div>
+        <div class="role-badge">ADMIN</div>
+      </div>
+      <a href="#overview" class="active">Overview</a>
+      <a href="#members">Members</a>
+      <a href="#expenses">Expenses</a>
+      <a href="#assistance">Community Assistance</a>
+      <a href="#operations">Operations</a>
+      <a href="#content">Events &amp; Announcements</a>
+      <a href="dashboard.html">My Dashboard</a>
+      <button class="sidebar-link" data-sign-out>Sign Out</button>
+    </aside>
+
+    <main class="app-main">
+      <h1 id="overview">RaqGiveback Admin</h1>
+      <p class="page-subtitle">Only admins can see this page's data — enforced in the database, not just hidden in the menu.</p>
+
+      <div class="stat-cards" id="overview-cards">
+        <div class="card"><div class="stat-num" id="ov-kids">—</div><div class="stat-label">Kids Joined</div></div>
+        <div class="card"><div class="stat-num" id="ov-mentors">—</div><div class="stat-label">Mentors</div></div>
+        <div class="card"><div class="stat-num" id="ov-ambassadors">—</div><div class="stat-label">Ambassadors</div></div>
+        <div class="card"><div class="stat-num" id="ov-partners">—</div><div class="stat-label">Partners</div></div>
+        <div class="card"><div class="stat-num" id="ov-pending">—</div><div class="stat-label">Pending Applications</div></div>
+        <div class="card"><div class="stat-num" id="ov-people">—</div><div class="stat-label">People Assisted</div></div>
+        <div class="card"><div class="stat-num" id="ov-services">—</div><div class="stat-label">Services Provided</div></div>
+      </div>
+
+      <!-- MEMBERS -->
+      <section class="admin-section" id="members">
+        <div class="section-title-row">
+          <h2>Members</h2>
+        </div>
+        <div class="tabs-row" id="member-tabs">
+          <button data-filter="pending" class="active">Pending</button>
+          <button data-filter="kid">Kids</button>
+          <button data-filter="mentor">Mentors</button>
+          <button data-filter="partner">Partners</button>
+          <button data-filter="ambassador">Ambassadors</button>
+          <button data-filter="all">All</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Name</th><th>Role</th><th>Contact</th><th>Details</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="members-body"><tr class="empty-row"><td colspan="6">Loading...</td></tr></tbody>
+        </table>
+      </section>
+
+      <!-- EXPENSES -->
+      <section class="admin-section" id="expenses">
+        <div class="section-title-row">
+          <h2>Cost of Stuff Tracking</h2>
+          <button class="btn btn-gold btn-small" id="open-expense-modal">+ Add Expense</button>
+        </div>
+        <div class="totals-row" id="expense-totals">
+          <div><strong id="tot-food">$0.00</strong>Food</div>
+          <div><strong id="tot-clothing">$0.00</strong>Clothing</div>
+          <div><strong id="tot-events">$0.00</strong>Events</div>
+          <div><strong id="tot-other">$0.00</strong>Other</div>
+          <div><strong id="tot-all">$0.00</strong>Total GiveBack Spending</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Date</th><th>Category</th><th>Description</th><th>Vendor</th><th>Amount</th><th>Receipt</th></tr>
+          </thead>
+          <tbody id="expenses-body"><tr class="empty-row"><td colspan="6">Loading...</td></tr></tbody>
+        </table>
+      </section>
+
+      <!-- COMMUNITY ASSISTANCE -->
+      <section class="admin-section" id="assistance">
+        <div class="section-title-row">
+          <h2>Community Assistance — GiveBack Log</h2>
+          <button class="btn btn-gold btn-small" id="open-person-modal">+ Add Person</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Person</th><th>Contact</th><th>First Helped</th><th>Referred By</th><th>Services</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="people-body"><tr class="empty-row"><td colspan="6">Loading...</td></tr></tbody>
+        </table>
+
+        <div class="section-title-row" style="margin-top:28px">
+          <h3>All Assistance Records</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Person</th><th>Type</th><th>Date</th><th>What Was Provided</th><th>Outcome</th><th>Status</th><th>Cost</th></tr>
+          </thead>
+          <tbody id="records-body"><tr class="empty-row"><td colspan="7">Loading...</td></tr></tbody>
+        </table>
+      </section>
+
+      <!-- OPERATIONS -->
+      <section class="admin-section" id="operations">
+        <div class="section-title-row">
+          <h2>Operations — In-House vs. Outsourced</h2>
+          <button class="btn btn-gold btn-small" id="open-operation-modal">+ Add Operation</button>
+        </div>
+        <div class="totals-row" id="operations-totals">
+          <div><strong id="tot-outsourced">$0.00</strong>Outsourced Cost</div>
+          <div><strong id="tot-inhouse-count">0</strong>Completed In-House</div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Project</th><th>Type</th><th>Vendor / Person</th><th>Cost</th><th>Date</th><th>Status</th></tr>
+          </thead>
+          <tbody id="operations-body"><tr class="empty-row"><td colspan="6">Loading...</td></tr></tbody>
+        </table>
+      </section>
+
+      <!-- EVENTS & ANNOUNCEMENTS -->
+      <section class="admin-section" id="content">
+        <div class="section-title-row">
+          <h2>Events</h2>
+          <button class="btn btn-gold btn-small" id="open-event-modal">+ Add Event</button>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Date</th><th>Title</th><th>Location</th><th>Public?</th><th></th></tr></thead>
+          <tbody id="admin-events-body"><tr class="empty-row"><td colspan="5">Loading...</td></tr></tbody>
+        </table>
+
+        <div class="section-title-row" style="margin-top:28px">
+          <h2>Announcements</h2>
+          <button class="btn btn-gold btn-small" id="open-announcement-modal">+ Add Announcement</button>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Date</th><th>Title</th><th>Message</th><th></th></tr></thead>
+          <tbody id="admin-announcements-body"><tr class="empty-row"><td colspan="4">Loading...</td></tr></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal: Add Expense -->
+  <div class="modal-backdrop" id="modal-expense">
+    <div class="modal">
+      <div class="modal-head"><h3>Add Expense</h3><button class="modal-close" data-close-modal="modal-expense">&times;</button></div>
+      <form id="expense-form">
+        <div class="two-col">
+          <div class="field"><label>Date</label><input type="date" id="exp-date" required /></div>
+          <div class="field"><label>Category</label>
+            <select id="exp-category" required>
+              <option>Food</option><option>Clothing</option><option>Events</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>Description</label><input type="text" id="exp-description" placeholder="Community Dinner" /></div>
+        <div class="two-col">
+          <div class="field"><label>Amount</label><input type="number" id="exp-amount" step="0.01" min="0" required /></div>
+          <div class="field"><label>Vendor / Store</label><input type="text" id="exp-vendor" placeholder="Publix" /></div>
+        </div>
+        <div class="field"><label>Upload Receipt <span class="hint">(optional)</span></label><input type="file" id="exp-receipt" accept="image/*,application/pdf" /></div>
+        <div class="field"><label>Notes</label><textarea id="exp-notes"></textarea></div>
+        <button type="submit" class="btn btn-gold" style="width:100%">Save Expense</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Person -->
+  <div class="modal-backdrop" id="modal-person">
+    <div class="modal">
+      <div class="modal-head"><h3>Add Person Assisted</h3><button class="modal-close" data-close-modal="modal-person">&times;</button></div>
+      <form id="person-form">
+        <div class="field"><label>Full Name</label><input type="text" id="p-name" required /></div>
+        <div class="two-col">
+          <div class="field"><label>Phone</label><input type="tel" id="p-phone" /></div>
+          <div class="field"><label>Email</label><input type="email" id="p-email" /></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label>Date First Helped</label><input type="date" id="p-date" required /></div>
+          <div class="field"><label>Referred By</label><input type="text" id="p-referred" /></div>
+        </div>
+        <div class="field"><label>Notes</label><textarea id="p-notes"></textarea></div>
+        <button type="submit" class="btn btn-gold" style="width:100%">Save Person</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Service / Assistance Record -->
+  <div class="modal-backdrop" id="modal-service">
+    <div class="modal">
+      <div class="modal-head"><h3>Add Assistance Record</h3><button class="modal-close" data-close-modal="modal-service">&times;</button></div>
+      <form id="service-form">
+        <input type="hidden" id="s-person-id" />
+        <div class="field"><label>Person</label><div id="s-person-name" style="font-weight:700"></div></div>
+        <div class="two-col">
+          <div class="field"><label>Assistance Type</label>
+            <select id="s-type" required>
+              <option>Job</option><option>Shelter</option><option>Food</option><option>Clothing</option>
+              <option>Transportation</option><option>Education</option><option>Mentorship</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field"><label>Date</label><input type="date" id="s-date" required /></div>
+        </div>
+        <div class="field"><label>What Was Provided</label><input type="text" id="s-provided" /></div>
+        <div class="field"><label>Outcome</label><input type="text" id="s-outcome" placeholder="Connected with employer" /></div>
+        <div class="two-col">
+          <div class="field"><label>Status</label>
+            <select id="s-status"><option>Ongoing</option><option>Completed</option></select>
+          </div>
+          <div class="field"><label>Estimated Cost <span class="hint">(optional)</span></label><input type="number" id="s-cost" step="0.01" min="0" /></div>
+        </div>
+        <div class="field checkbox-field">
+          <input type="checkbox" id="s-followup" />
+          <label for="s-followup">Follow-up needed</label>
+        </div>
+        <div class="field"><label>Notes</label><textarea id="s-notes"></textarea></div>
+        <button type="submit" class="btn btn-gold" style="width:100%">Save Record</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Operation -->
+  <div class="modal-backdrop" id="modal-operation">
+    <div class="modal">
+      <div class="modal-head"><h3>Add Operation</h3><button class="modal-close" data-close-modal="modal-operation">&times;</button></div>
+      <form id="operation-form">
+        <div class="field"><label>Project / Task</label><input type="text" id="op-project" required /></div>
+        <div class="two-col">
+          <div class="field"><label>Type</label>
+            <select id="op-type" required><option>In-House</option><option>Outsourced</option></select>
+          </div>
+          <div class="field"><label>Vendor / Person</label><input type="text" id="op-vendor" placeholder="RaqGiveback Volunteers" /></div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label>Cost</label><input type="number" id="op-cost" step="0.01" min="0" value="0" /></div>
+          <div class="field"><label>Date</label><input type="date" id="op-date" required /></div>
+        </div>
+        <div class="field"><label>Reason Outsourced <span class="hint">(if applicable)</span></label><input type="text" id="op-reason" /></div>
+        <div class="two-col">
+          <div class="field"><label>Status</label>
+            <select id="op-status"><option>In Progress</option><option>Completed</option></select>
+          </div>
+          <div class="field"><label>Upload Invoice <span class="hint">(optional)</span></label><input type="file" id="op-invoice" accept="image/*,application/pdf" /></div>
+        </div>
+        <div class="field"><label>Notes</label><textarea id="op-notes"></textarea></div>
+        <button type="submit" class="btn btn-gold" style="width:100%">Save Operation</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Event -->
+  <div class="modal-backdrop" id="modal-event">
+    <div class="modal">
+      <div class="modal-head"><h3>Add Event</h3><button class="modal-close" data-close-modal="modal-event">&times;</button></div>
+      <form id="event-form">
+        <div class="field"><label>Title</label><input type="text" id="ev-title" required /></div>
+        <div class="two-col">
+          <div class="field"><label>Date</label><input type="date" id="ev-date" /></div>
+          <div class="field"><label>Location</label><input type="text" id="ev-location" /></div>
+        </div>
+        <div class="field"><label>Description</label><textarea id="ev-description"></textarea></div>
+        <div class="field checkbox-field">
+          <input type="checkbox" id="ev-public" checked />
+          <label for="ev-public">Visible on public homepage (unchecked = members only)</label>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%">Save Event</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Announcement -->
+  <div class="modal-backdrop" id="modal-announcement">
+    <div class="modal">
+      <div class="modal-head"><h3>Add Announcement</h3><button class="modal-close" data-close-modal="modal-announcement">&times;</button></div>
+      <form id="announcement-form">
+        <div class="field"><label>Title</label><input type="text" id="an-title" required /></div>
+        <div class="field"><label>Message</label><textarea id="an-body" required></textarea></div>
+        <button type="submit" class="btn btn-gold" style="width:100%">Post Announcement</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="assets/js/admin.js"></script>
+</body>
+</html>

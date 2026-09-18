@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join RaqGiveback</title>
+  <link rel="stylesheet" href="assets/css/raqgiveback.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">RAQ<span>Giveback</span></a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="signin.html">Sign In</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="auth-page">
+    <div class="wrap">
+      <h1>Join RaqGiveback</h1>
+      <p class="subtitle">Every application is reviewed by our team before your account is fully activated.</p>
+
+      <form class="form-card" id="signup-form" novalidate>
+        <div id="form-msg" class="form-msg hidden"></div>
+
+        <div class="field">
+          <label>I am joining as:</label>
+          <div class="role-picker" id="role-picker">
+            <label><input type="radio" name="role" value="kid" /><span>Kid / Mentee</span></label>
+            <label><input type="radio" name="role" value="mentor" /><span>Mentor</span></label>
+            <label><input type="radio" name="role" value="partner" /><span>Partner</span></label>
+            <label><input type="radio" name="role" value="ambassador" /><span>Ambassador</span></label>
+          </div>
+        </div>
+
+        <!-- Common fields -->
+        <div class="field">
+          <label for="full_name">Full Name</label>
+          <input type="text" id="full_name" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" required autocomplete="tel" />
+        </div>
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" required minlength="8" autocomplete="new-password" />
+        </div>
+
+        <!-- Mentor fields -->
+        <div class="role-section" data-role-section="mentor" hidden>
+          <h4>Mentor Details</h4>
+          <div class="field">
+            <label for="mentor_area">What would you like to mentor in? <span class="hint">(life skills, faith, career, education, etc.)</span></label>
+            <input type="text" id="mentor_area" />
+          </div>
+          <div class="legal-note">
+            Because mentors work directly with minors, all mentors go through a background check and admin
+            approval before being matched with a kid. You'll be notified once your review is complete.
+          </div>
+        </div>
+
+        <!-- Partner fields -->
+        <div class="role-section" data-role-section="partner" hidden>
+          <h4>Partner Details</h4>
+          <div class="field">
+            <label for="org_name">Organization Name</label>
+            <input type="text" id="org_name" />
+          </div>
+          <div class="field">
+            <label for="partnership_type">Type of Organization</label>
+            <select id="partnership_type">
+              <option value="">Select one</option>
+              <option>Church</option>
+              <option>Business</option>
+              <option>Nonprofit</option>
+              <option>Shelter</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Kid fields -->
+        <div class="role-section" data-role-section="kid" hidden>
+          <h4>Kid / Mentee Details</h4>
+          <p class="hint">The "Full Name" above should be the child's name.</p>
+          <div class="field">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" />
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="school">School <span class="hint">(optional)</span></label>
+              <input type="text" id="school" />
+            </div>
+            <div class="field">
+              <label for="grade">Grade <span class="hint">(optional)</span></label>
+              <input type="text" id="grade" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="interests">Interests / What They'd Like Mentorship With</label>
+            <textarea id="interests"></textarea>
+          </div>
+
+          <div class="legal-note">
+            Because RaqGiveback works with minors, we require a parent or legal guardian to complete this
+            section and give consent. In some states, an online account for a minor legally requires consent
+            from a parent/guardian — the fields below satisfy that requirement.
+          </div>
+
+          <h4>Parent / Guardian Information</h4>
+          <div class="two-col">
+            <div class="field">
+              <label for="guardian_name">Guardian Full Name</label>
+              <input type="text" id="guardian_name" />
+            </div>
+            <div class="field">
+              <label for="guardian_relationship">Relationship to Child</label>
+              <input type="text" id="guardian_relationship" placeholder="Mother, Father, Legal Guardian..." />
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="guardian_phone">Guardian Phone</label>
+              <input type="tel" id="guardian_phone" />
+            </div>
+            <div class="field">
+              <label for="guardian_email">Guardian Email</label>
+              <input type="email" id="guardian_email" />
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="field">
+              <label for="emergency_contact_name">Emergency Contact Name</label>
+              <input type="text" id="emergency_contact_name" />
+            </div>
+            <div class="field">
+              <label for="emergency_contact_phone">Emergency Contact Phone</label>
+              <input type="tel" id="emergency_contact_phone" />
+            </div>
+          </div>
+
+          <div class="field checkbox-field">
+            <input type="checkbox" id="guardian_consent" />
+            <label for="guardian_consent">
+              As the parent/legal guardian, I give permission for my child to participate in RaqGiveback
+              programs and mentorship. (Required)
+            </label>
+          </div>
+          <div class="field checkbox-field">
+            <input type="checkbox" id="photo_consent" />
+            <label for="photo_consent">
+              I give RaqGiveback permission to photograph/video my child for promotional and
+              community-impact purposes. (Optional — mentorship participation is not affected either way.)
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width:100%">Submit Application</button>
+      </form>
+
+      <p class="auth-switch">Already have an account? <a href="signin.html">Sign in</a></p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>RaqGiveback — a community-impact initiative connected to RAQ Apparel.</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { supabase, warnIfNotConfigured } from "./assets/js/supabaseClient.js";
+
+    warnIfNotConfigured();
+
+    const params = new URLSearchParams(window.location.search);
+    const presetRole = params.get("role");
+
+    const roleInputs = document.querySelectorAll('input[name="role"]');
+    const sections = document.querySelectorAll("[data-role-section]");
+    const msg = document.getElementById("form-msg");
+
+    function showRoleSections(role) {
+      sections.forEach((sec) => {
+        sec.hidden = sec.dataset.roleSection !== role;
+      });
+    }
+
+    roleInputs.forEach((input) => {
+      input.addEventListener("change", () => showRoleSections(input.value));
+    });
+
+    if (presetRole && ["kid", "mentor", "partner", "ambassador"].includes(presetRole)) {
+      const match = document.querySelector(`input[name="role"][value="${presetRole}"]`);
+      if (match) {
+        match.checked = true;
+        showRoleSections(presetRole);
+      }
+    }
+
+    function showMsg(text, type) {
+      msg.textContent = text;
+      msg.className = `form-msg ${type}`;
+    }
+
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.className = "form-msg hidden";
+
+      if (!supabase) {
+        showMsg("RaqGiveback isn't connected to a database yet. See SETUP.md.", "error");
+        return;
+      }
+
+      const role = document.querySelector('input[name="role"]:checked')?.value;
+      if (!role) {
+        showMsg("Please choose who you're joining as.", "error");
+        return;
+      }
+
+      const full_name = document.getElementById("full_name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!full_name || !phone || !email || password.length < 8) {
+        showMsg("Please fill out all required fields. Password must be at least 8 characters.", "error");
+        return;
+      }
+
+      const profile = { role, full_name, phone, email, status: "pending" };
+
+      if (role === "mentor") {
+        profile.mentor_area = document.getElementById("mentor_area").value.trim();
+      } else if (role === "partner") {
+        profile.org_name = document.getElementById("org_name").value.trim();
+        profile.partnership_type = document.getElementById("partnership_type").value;
+      } else if (role === "kid") {
+        const guardianConsent = document.getElementById("guardian_consent").checked;
+        if (!guardianConsent) {
+          showMsg("Parent/guardian consent is required for a kid/mentee to join.", "error");
+          return;
+        }
+        profile.dob = document.getElementById("dob").value || null;
+        profile.school = document.getElementById("school").value.trim();
+        profile.grade = document.getElementById("grade").value.trim();
+        profile.interests = document.getElementById("interests").value.trim();
+        profile.guardian_name = document.getElementById("guardian_name").value.trim();
+        profile.guardian_relationship = document.getElementById("guardian_relationship").value.trim();
+        profile.guardian_phone = document.getElementById("guardian_phone").value.trim();
+        profile.guardian_email = document.getElementById("guardian_email").value.trim();
+        profile.emergency_contact_name = document.getElementById("emergency_contact_name").value.trim();
+        profile.emergency_contact_phone = document.getElementById("emergency_contact_phone").value.trim();
+        profile.guardian_consent = true;
+        profile.photo_consent = document.getElementById("photo_consent").checked;
+
+        if (!profile.guardian_name || !profile.guardian_phone || !profile.guardian_email) {
+          showMsg("Please complete the parent/guardian information section.", "error");
+          return;
+        }
+      }
+
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password });
+
+      if (signUpError) {
+        showMsg(signUpError.message, "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Application";
+        return;
+      }
+
+      const userId = signUpData.user?.id;
+      if (!userId) {
+        showMsg("Check your email to confirm your account, then sign in to finish your application.", "success");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Application";
+        return;
+      }
+
+      const { error: profileError } = await supabase.from("profiles").insert({ id: userId, ...profile });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Application";
+
+      if (profileError) {
+        showMsg(profileError.message, "error");
+        return;
+      }
+
+      showMsg("Application submitted! An admin will review it soon. Redirecting to your dashboard...", "success");
+      setTimeout(() => (window.location.href = "dashboard.html"), 1500);
+    });
+  </script>
+</body>
+</html>
