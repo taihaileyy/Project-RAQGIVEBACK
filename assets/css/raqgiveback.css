@@ -472,7 +472,7 @@ footer.site-footer a {
   color: var(--rg-gold);
   text-decoration: none;
 }
-.app-sidebar a.active {
+.app-sidebar a.active, .app-sidebar button.sidebar-link.active {
   background: rgba(215, 161, 59, 0.15);
   color: var(--rg-gold);
 }
