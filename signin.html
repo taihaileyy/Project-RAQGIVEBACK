@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In | RaqGiveback</title>
+  <link rel="stylesheet" href="assets/css/raqgiveback.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">RAQ<span>Giveback</span></a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="signup.html">Join Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="auth-page">
+    <div class="wrap">
+      <h1>Welcome Back</h1>
+      <p class="subtitle">Sign in to see your RaqGiveback dashboard.</p>
+
+      <form class="form-card" id="signin-form" novalidate>
+        <div id="form-msg" class="form-msg hidden"></div>
+
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" required autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="width:100%">Sign In</button>
+      </form>
+
+      <p class="auth-switch">Need an account? <a href="signup.html">Join RaqGiveback</a></p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>RaqGiveback — a community-impact initiative connected to RAQ Apparel.</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { supabase, warnIfNotConfigured } from "./assets/js/supabaseClient.js";
+
+    warnIfNotConfigured();
+
+    const msg = document.getElementById("form-msg");
+    function showMsg(text, type) {
+      msg.textContent = text;
+      msg.className = `form-msg ${type}`;
+    }
+
+    document.getElementById("signin-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.className = "form-msg hidden";
+
+      if (!supabase) {
+        showMsg("RaqGiveback isn't connected to a database yet. See SETUP.md.", "error");
+        return;
+      }
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Signing in...";
+
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Sign In";
+
+      if (error) {
+        showMsg(error.message, "error");
+        return;
+      }
+
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>

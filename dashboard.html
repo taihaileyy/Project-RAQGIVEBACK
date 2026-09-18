@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard | RaqGiveback</title>
+  <link rel="stylesheet" href="assets/css/raqgiveback.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">RAQ<span>Giveback</span></a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="#" data-sign-out>Sign Out</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="app-sidebar">
+      <div class="who">
+        <div class="name" id="side-name">...</div>
+        <div class="role-badge" id="side-role">...</div>
+      </div>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="dashboard.html#events">Events</a>
+      <a href="dashboard.html#announcements">Announcements</a>
+      <a href="dashboard.html#profile">My Profile</a>
+      <a href="admin.html" id="admin-link" hidden>Admin Dashboard</a>
+      <button class="sidebar-link" data-sign-out>Sign Out</button>
+    </aside>
+
+    <main class="app-main">
+      <div id="pending-banner" class="banner pending" hidden>
+        Your application is under review. Once an admin approves your account you'll get full access to
+        programs, events, and messages.
+      </div>
+
+      <h1>Welcome, <span id="welcome-name">there</span> 👋</h1>
+      <p class="page-subtitle">Your Role: <span id="welcome-role" class="role-badge">—</span></p>
+
+      <section class="admin-section" id="events">
+        <div class="section-title-row">
+          <h2>Upcoming Events</h2>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Date</th><th>Title</th><th>Location</th><th>Description</th></tr>
+          </thead>
+          <tbody id="events-body">
+            <tr class="empty-row"><td colspan="4">Loading...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="admin-section" id="announcements">
+        <div class="section-title-row">
+          <h2>Announcements</h2>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Date</th><th>Title</th><th>Message</th></tr>
+          </thead>
+          <tbody id="announcements-body">
+            <tr class="empty-row"><td colspan="3">Loading...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="admin-section" id="profile">
+        <div class="section-title-row">
+          <h2>My Profile</h2>
+        </div>
+        <table class="data-table" id="profile-table">
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { warnIfNotConfigured, supabase } from "./assets/js/supabaseClient.js";
+    import { requireAuth, wireSignOutButtons, ROLE_LABELS } from "./assets/js/auth.js";
+
+    warnIfNotConfigured();
+    wireSignOutButtons();
+
+    const esc = (v) => (v == null ? "" : String(v).replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c])));
+
+    async function init() {
+      const result = await requireAuth();
+      if (!result) return;
+      const { profile } = result;
+
+      document.getElementById("side-name").textContent = profile?.full_name || "Member";
+      document.getElementById("side-role").innerHTML = `<span class="role-badge">${esc(ROLE_LABELS[profile?.role] || profile?.role || "")}</span>`;
+      document.getElementById("welcome-name").textContent = (profile?.full_name || "there").split(" ")[0];
+      document.getElementById("welcome-role").textContent = ROLE_LABELS[profile?.role] || profile?.role || "—";
+
+      if (profile?.role === "admin" && profile?.status === "approved") {
+        document.getElementById("admin-link").hidden = false;
+      }
+
+      if (!profile || profile.status !== "approved") {
+        document.getElementById("pending-banner").hidden = false;
+      }
+
+      // Profile summary table
+      if (profile) {
+        const rows = [
+          ["Full Name", profile.full_name],
+          ["Email", profile.email],
+          ["Phone", profile.phone],
+          ["Status", `<span class="status-badge ${esc(profile.status)}">${esc(profile.status)}</span>`],
+        ];
+        if (profile.role === "mentor") rows.push(["Mentor Area", profile.mentor_area], ["Background Check", profile.background_check_status]);
+        if (profile.role === "partner") rows.push(["Organization", profile.org_name], ["Partnership Type", profile.partnership_type]);
+        if (profile.role === "kid") rows.push(["School", profile.school], ["Grade", profile.grade]);
+
+        const tbody = document.querySelector("#profile-table tbody");
+        tbody.innerHTML = rows
+          .filter(([, v]) => v !== undefined)
+          .map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v ?? ""}</td></tr>`)
+          .join("");
+      }
+
+      if (!supabase) return;
+
+      // Events (only approved members can query non-public ones per RLS, but query works for all)
+      const { data: events } = await supabase
+        .from("events")
+        .select("*")
+        .order("event_date", { ascending: true })
+        .limit(10);
+      const eventsBody = document.getElementById("events-body");
+      if (events && events.length) {
+        eventsBody.innerHTML = events
+          .map((ev) => `<tr><td>${esc(ev.event_date)}</td><td>${esc(ev.title)}</td><td>${esc(ev.location)}</td><td>${esc(ev.description)}</td></tr>`)
+          .join("");
+      } else {
+        eventsBody.innerHTML = `<tr class="empty-row"><td colspan="4">No upcoming events yet.</td></tr>`;
+      }
+
+      // Announcements
+      const { data: announcements } = await supabase
+        .from("announcements")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(10);
+      const annBody = document.getElementById("announcements-body");
+      if (announcements && announcements.length) {
+        annBody.innerHTML = announcements
+          .map((a) => `<tr><td>${esc(new Date(a.created_at).toLocaleDateString())}</td><td>${esc(a.title)}</td><td>${esc(a.body)}</td></tr>`)
+          .join("");
+      } else {
+        annBody.innerHTML = `<tr class="empty-row"><td colspan="3">No announcements yet.</td></tr>`;
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

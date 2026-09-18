@@ -1,229 +1,169 @@
-
 <!doctype html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Life Line | Home</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation-prototype.min.css">
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
-    <!-- optional CDN for Foundation Icons ^^ -->
-  </head>
-  <body>
-    <!-- Info Banner For Announcements or Links -->
-    <!-- <a href="https://zurb.com/university/foundation-intro" class="docs-banner course-banner">
-      <div class="info">
-        <h5 class=""><strong>To master everything new in 6.4, along with the rest of Foundation register for our Aug 8th Webinar Class &rsaquo;</strong></h5>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RaqGiveback | Giving Back. Building Lives. Creating Opportunity.</title>
+  <meta name="description" content="RaqGiveback connects mentors, kids, ambassadors, and community partners to provide mentorship, resources, and direct support." />
+  <link rel="stylesheet" href="assets/css/raqgiveback.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="index.html">RAQ<span>Giveback</span></a>
+      <nav>
+        <a href="index.html#mission">Our Mission</a>
+        <a href="index.html#who">Get Involved</a>
+        <a href="index.html#impact">Impact</a>
+        <a href="signin.html">Sign In</a>
+        <a class="btn btn-gold btn-small" href="signup.html">Join Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">RaqGiveback · a RAQ Apparel community initiative</div>
+      <h1>Giving back. Building lives. Creating opportunity.</h1>
+      <p class="lede">
+        RaqGiveback exists to serve our community through mentorship, faith, resources, partnerships, and
+        direct support. We connect young people with mentors, help individuals in need, and bring together
+        ambassadors and partners who want to make a difference.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-gold" href="signup.html?role=kid">Join the Community</a>
+        <a class="btn btn-outline" href="signup.html?role=mentor">Become a Mentor</a>
+        <a class="btn btn-outline" href="signup.html?role=partner">Partner With Us</a>
       </div>
-    </a> -->
-    
-    <!-- <a href="https://zurb.com/wired" id="notice">
-      <div class="info hide-for-small">
-        <div id="clockdiv" class="countdown">
-            <span class="timer-day days"></span>
-            <span class="timer-colon">:</span>
-          <span class="timer-hour hours"></span>
-          <span class="timer-colon">:</span>
-          <span class="timer-hour minutes"></span>
-          <span class="timer-colon">:</span>
-          <span class="timer-seconds seconds"></span>
+    </div>
+  </section>
+
+  <section class="stats" id="impact">
+    <div class="wrap">
+      <div>
+        <div class="stat-num" id="stat-kids">—</div>
+        <div class="stat-label">Kids Mentored</div>
+      </div>
+      <div>
+        <div class="stat-num" id="stat-mentors">—</div>
+        <div class="stat-label">Mentors</div>
+      </div>
+      <div>
+        <div class="stat-num" id="stat-ambassadors">—</div>
+        <div class="stat-label">Ambassadors</div>
+      </div>
+      <div>
+        <div class="stat-num" id="stat-partners">—</div>
+        <div class="stat-label">Community Partners</div>
+      </div>
+      <div>
+        <div class="stat-num" id="stat-people">—</div>
+        <div class="stat-label">People Helped</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="mission">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Our Mission</div>
+        <h2>You don't have to let your environment define you.</h2>
+        <p>
+          RaqGiveback takes RAQ's message — that you can use the positive things around you to better your
+          circumstances — and puts it into action. Through mentorship, community assistance, and partnership
+          with local organizations, we help kids and families build real opportunity.
+        </p>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Mentorship</h3>
+          <p>We match kids and teens with mentors who help with life skills, faith, career, and education.</p>
+        </div>
+        <div class="card">
+          <h3>Direct Support</h3>
+          <p>Food, clothing, shelter referrals, job assistance, and more for people in our community.</p>
+        </div>
+        <div class="card">
+          <h3>Partnership</h3>
+          <p>We work alongside churches, businesses, nonprofits, and shelters to multiply our impact.</p>
         </div>
       </div>
-    </a> -->
+    </div>
+  </section>
 
-    
-        <!-- Start Top Bar -->
-        <div class="top-bar">
-          <div class="top-bar-left">
-            <ul class="dropdown menu" data-dropdown-menu>
-              <li class="menu-text">The Life Line</li>
-              <li class="has-submenu">
-                <a href="#">One</a>
-                <ul class="submenu menu vertical" data-submenu>
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Shop Here</a></li>
-                </ul>
-              </li>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Shop Here</a></li>
-            </ul>
-          </div>
-          <div class="top-bar-right">
-            <ul class="menu">
-              <li><input type="search" placeholder="Search"></li>
-              <li><button type="button" class="button">Search</button></li>
-            </ul>
-          </div>
+  <section class="section alt-bg" id="who">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Who Can Join</div>
+        <h2>I am joining as...</h2>
+        <p>Every application is reviewed by our team before an account is fully activated.</p>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Kid / Mentee</h3>
+          <p>Kids and teens participating in mentorship and RaqGiveback programs. Requires parent/guardian consent.</p>
+          <a class="btn btn-dark btn-small" href="signup.html?role=kid">Apply as a Kid / Mentee</a>
         </div>
-        <!-- End Top Bar -->
-        <br>
-      <article class="grid-container">
-        <div class="grid-x cell">
-          <nav aria-label="You are here:" role="navigation">
-            <ul class="breadcrumbs">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Features</a></li>
-              <li class="disabled">Gene Splicing</li>
-              <li>
-                <span class="show-for-sr">Current: </span> Cloning
-              </li>
-            </ul>
-          </nav>
+        <div class="card">
+          <h3>Mentor</h3>
+          <p>Adults mentoring kids in life, faith, career, and education. Background screening required.</p>
+          <a class="btn btn-dark btn-small" href="signup.html?role=mentor">Apply as a Mentor</a>
         </div>
-        <div class="grid-x grid-margin-x">
-          <div class="medium-6 cell">
-            <img class="thumbnail" src="assets/images/Life Line Bundle.PNG" alt="Life Line Bundle Kit">
-            <div class="grid-x grid-padding-x small-up-4">
-              <div class="cell">
-                <img src="assets/images/Life Line Bundle.PNG" alt="Life Line Bundle Kit">
-              </div>
-              <div class="cell">
-                <img src="assets/images/Life Line Bundle.PNG" alt="Life Line Bundle Kit">
-              </div>
-              <div class="cell">
-                <img src="assets/images/Life Line Bundle.PNG" alt="Life Line Bundle Kit">
-              </div>
-              <div class="cell">
-                <img src="assets/images/Life Line Bundle.PNG" alt="Life Line Bundle Kit">
-              </div>
-            </div>
-          </div>
-          <div class="medium-6 large-5 cell large-offset-1">
-            <h3>Life Line Bundle Kit</h3>
-            <p>This beautiful bundle includes our all natural shampoo, conditioner, hair oil, and hair mask!</p>
-    
-            <label>Size
-            <select>
-              <option value="husker">LIFE LINE KIT</option>
-            </select>
-            </label>
-    
-            <div class="grid-x">
-              <div class="small-3 cell">
-                <label for="middle-label" class="middle">Quantity</label>
-              </div>
-              <div class="small-9 cell">
-                <input type="text" id="middle-label" placeholder="Tai Wuz Here">
-              </div>
-            </div>
-    
-            <a href="#" class="button large expanded">Buy Now</a>
-    
-            <div class="small secondary expanded button-group">
-                <a class="button">Facebook</a>
-                <a class="button">Twitter</a>
-                <a class="button">Yo</a>
-              </div>
-            </div>
+        <div class="card">
+          <h3>Partner</h3>
+          <p>Businesses, churches, nonprofits, and shelters who want to partner with RaqGiveback.</p>
+          <a class="btn btn-dark btn-small" href="signup.html?role=partner">Apply as a Partner</a>
         </div>
-    
-        <div class="">
-          <hr>
-          <ul class="tabs" data-tabs id="example-tabs">
-            <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Reviews</a></li>
-            <li class="tabs-title"><a href="#panel2">Similar Products</a></li>
-          </ul>
-          <div class="tabs-content" data-tabs-content="example-tabs">
-            <div class="tabs-panel is-active" id="panel1">
-              <h4>Reviews</h4>
-              <div class="media-object stack-for-small">
-                <div class="media-object-section">
-                  <img class="thumbnail" src="https://placehold.it/200x200">
-                </div>
-                <div class="media-object-section">
-                  <h5>Tai F.</h5>
-                  <p>Best hair products ever!</p>
-                </div>
-              </div>
-              <div class="media-object stack-for-small">
-                <div class="media-object-section">
-                  <img class="thumbnail" src="https://placehold.it/200x200">
-                </div>
-                <div class="media-object-section">
-                  <h5>Jazz W.</h5>
-                  <p>These products are so amazing!</p>
-                </div>
-              </div>
-              <div class="media-object stack-for-small">
-                <div class="media-object-section">
-                  <img class="thumbnail" src="https://placehold.it/200x200">
-                </div>
-                <div class="media-object-section">
-                  <h5>Lauren B.</h5>
-                  <p>Love, love, love!</p>
-                </div>
-              </div>
-              <label>
-                My Review
-                <textarea placeholder="None"></textarea>
-              </label>
-              <button class="button">Submit Review</button>
-            </div>
-            <div class="tabs-panel" id="panel2">
-              <div class="grid-x grid-margin-x medium-up-3 large-up-5">
-                <div class="cell">
-                  <img class="thumbnail" src="https://placehold.it/350x200">
-                  <h5>Other Product <small>$22</small></h5>
-                  <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
-                  <a href="#" class="button hollow tiny expanded">Buy Now</a>
-                </div>
-                <div class="cell">
-                  <img class="thumbnail" src="https://placehold.it/350x200">
-                  <h5>Other Product <small>$22</small></h5>
-                  <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
-                  <a href="#" class="button hollow tiny expanded">Buy Now</a>
-                </div>
-                <div class="cell">
-                  <img class="thumbnail" src="https://placehold.it/350x200">
-                  <h5>Other Product <small>$22</small></h5>
-                  <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
-                  <a href="#" class="button hollow tiny expanded">Buy Now</a>
-                </div>
-                <div class="cell">
-                  <img class="thumbnail" src="https://placehold.it/350x200">
-                  <h5>Other Product <small>$22</small></h5>
-                  <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
-                  <a href="#" class="button hollow tiny expanded">Buy Now</a>
-                </div>
-                <div class="cell">
-                  <img class="thumbnail" src="https://placehold.it/350x200">
-                  <h5>Other Product <small>$22</small></h5>
-                  <p>In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam.</p>
-                  <a href="#" class="button hollow tiny expanded">Buy Now</a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="card">
+          <h3>Ambassador</h3>
+          <p>People representing and promoting RaqGiveback in their own community.</p>
+          <a class="btn btn-dark btn-small" href="signup.html?role=ambassador">Apply as an Ambassador</a>
         </div>
-    
-        <hr>
-    
-        <div class="grid-x align-justify align-middle">
-          <div class="small-12 medium-shrink cell">
-            <ul class="menu">
-              <li class="align-self-middle">Yeti Store</li>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </div>
-    
-          <div class="small-12 medium-shrink cell">
-            <span>Copyright 2018</span>
-          </div>
-        </div>
-      </article>
-    
+      </div>
+    </div>
+  </section>
 
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Already a Member?</div>
+        <h2>Sign in to see your dashboard.</h2>
+        <p>Mentors, ambassadors, partners, and kids each get a dashboard with events, programs, and announcements.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-dark" href="signin.html">Sign In</a>
+        <a class="btn btn-outline" style="border-color:#14110f;color:#14110f" href="signup.html">Create an Account</a>
+      </div>
+    </div>
+  </section>
 
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.3/motion-ui.min.js"></script>
-    <script>
-      $(document).foundation();
-    </script>
-  </body>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>RaqGiveback — a community-impact initiative connected to RAQ Apparel.</p>
+      <p><a href="signin.html">Sign In</a> · <a href="signup.html">Join Us</a></p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { supabase, warnIfNotConfigured } from "./assets/js/supabaseClient.js";
+
+    warnIfNotConfigured();
+
+    async function loadStats() {
+      if (!supabase) return;
+      const { data, error } = await supabase.from("public_impact_stats").select("*").maybeSingle();
+      if (error || !data) return;
+      const set = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = (val ?? 0).toLocaleString();
+      };
+      set("stat-kids", data.kids_mentored);
+      set("stat-mentors", data.mentors);
+      set("stat-ambassadors", data.ambassadors);
+      set("stat-partners", data.community_partners);
+      set("stat-people", data.people_assisted);
+    }
+    loadStats();
+  </script>
+</body>
 </html>
