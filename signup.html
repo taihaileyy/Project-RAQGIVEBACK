@@ -272,30 +272,27 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Submitting...";
 
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password });
-
-      if (signUpError) {
-        showMsg(signUpError.message, "error");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit Application";
-        return;
-      }
-
-      const userId = signUpData.user?.id;
-      if (!userId) {
-        showMsg("Check your email to confirm your account, then sign in to finish your application.", "success");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit Application";
-        return;
-      }
-
-      const { error: profileError } = await supabase.from("profiles").insert({ id: userId, ...profile });
+      // The profile fields ride along as signup metadata; a database trigger
+      // creates the profiles row server-side from them. This works whether
+      // or not "Confirm email" is on — the client never has to insert into
+      // profiles itself, which avoids an RLS failure before a session exists.
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: profile },
+      });
 
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit Application";
 
-      if (profileError) {
-        showMsg(profileError.message, "error");
+      if (signUpError) {
+        showMsg(signUpError.message, "error");
+        return;
+      }
+
+      if (!signUpData.session) {
+        showMsg("Almost there — check your email to confirm your account, then sign in.", "success");
+        setTimeout(() => (window.location.href = "signin.html"), 2000);
         return;
       }
 
