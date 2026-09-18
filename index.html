@@ -3,167 +3,447 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0e0d0b" />
   <title>RaqGiveback | Giving Back. Building Lives. Creating Opportunity.</title>
   <meta name="description" content="RaqGiveback connects mentors, kids, ambassadors, and community partners to provide mentorship, resources, and direct support." />
-  <link rel="stylesheet" href="assets/css/raqgiveback.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230e0d0b'/%3E%3Crect x='6' y='7' width='20' height='6' fill='%23edb230'/%3E%3Crect x='6' y='16' width='13' height='6' fill='%23f6f1e8'/%3E%3Ccircle cx='23.5' cy='24' r='3' fill='%23c3231a'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="assets/css/raqgiveback-public.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="index.html">RAQ<span>Giveback</span></a>
-      <nav>
-        <a href="index.html#mission">Our Mission</a>
-        <a href="index.html#who">Get Involved</a>
-        <a href="index.html#impact">Impact</a>
-        <a href="signin.html">Sign In</a>
-        <a class="btn btn-gold btn-small" href="signup.html">Join Us</a>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="site-nav">
+    <div class="shell site-nav__inner">
+      <a class="wordmark" href="index.html" aria-label="RaqGiveback home">
+        RAQ<b>GIVEBACK</b><i aria-hidden="true">.</i>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="#mission">Mission</a></li>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#impact">Impact</a></li>
+          <li><a href="#involved">Get Involved</a></li>
+          <li><a href="#community">Community</a></li>
+        </ul>
       </nav>
+
+      <div class="nav-actions">
+        <a class="nav-signin" href="signin.html">Sign In</a>
+        <a class="btn btn-primary nav-join" href="signup.html">Join Us</a>
+        <button
+          class="nav-toggle"
+          type="button"
+          data-nav-toggle
+          aria-expanded="false"
+          aria-controls="nav-panel"
+          aria-label="Open menu"
+        >
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile / tablet panel -->
+    <div class="nav-panel" id="nav-panel" data-open="false">
+      <ul>
+        <li><a href="#mission">Mission</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#involved">Get Involved</a></li>
+        <li><a href="#community">Community</a></li>
+        <li><a href="#partners">Partners</a></li>
+      </ul>
+      <div class="nav-panel__foot">
+        <a class="btn btn-primary" href="signup.html">Join Us</a>
+        <a class="btn btn-ghost-light" href="signin.html">Sign In</a>
+      </div>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="wrap">
-      <div class="eyebrow">RaqGiveback · a RAQ Apparel community initiative</div>
-      <h1>Giving back. Building lives. Creating opportunity.</h1>
-      <p class="lede">
-        RaqGiveback exists to serve our community through mentorship, faith, resources, partnerships, and
-        direct support. We connect young people with mentors, help individuals in need, and bring together
-        ambassadors and partners who want to make a difference.
-      </p>
-      <div class="btn-row">
-        <a class="btn btn-gold" href="signup.html?role=kid">Join the Community</a>
-        <a class="btn btn-outline" href="signup.html?role=mentor">Become a Mentor</a>
-        <a class="btn btn-outline" href="signup.html?role=partner">Partner With Us</a>
-      </div>
-    </div>
-  </section>
+  <main id="main">
 
-  <section class="stats" id="impact">
-    <div class="wrap">
-      <div>
-        <div class="stat-num" id="stat-kids">—</div>
-        <div class="stat-label">Kids Mentored</div>
-      </div>
-      <div>
-        <div class="stat-num" id="stat-mentors">—</div>
-        <div class="stat-label">Mentors</div>
-      </div>
-      <div>
-        <div class="stat-num" id="stat-ambassadors">—</div>
-        <div class="stat-label">Ambassadors</div>
-      </div>
-      <div>
-        <div class="stat-num" id="stat-partners">—</div>
-        <div class="stat-label">Community Partners</div>
-      </div>
-      <div>
-        <div class="stat-num" id="stat-people">—</div>
-        <div class="stat-label">People Helped</div>
-      </div>
-    </div>
-  </section>
+    <!-- ===================== 1. HERO ===================== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="shell">
+        <p class="hero__eyebrow">
+          RaqGiveback <em>— a RAQ Apparel community initiative</em>
+        </p>
 
-  <section class="section" id="mission">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">Our Mission</div>
-        <h2>You don't have to let your environment define you.</h2>
-        <p>
-          RaqGiveback takes RAQ's message — that you can use the positive things around you to better your
-          circumstances — and puts it into action. Through mentorship, community assistance, and partnership
-          with local organizations, we help kids and families build real opportunity.
+        <h1 id="hero-title">
+          <span>Giving back.</span>
+          <span>Building lives.</span>
+          <span class="accent">Creating opportunity.</span>
+        </h1>
+
+        <div class="hero__lower">
+          <div>
+            <div class="hero__sub">
+              <p>Mentorship, resources, and real support — built by our community, for our community.</p>
+            </div>
+
+            <div class="btn-row">
+              <a class="btn btn-primary" href="#involved">Get Involved</a>
+              <a class="btn btn-ghost-light" href="#mission">Our Mission</a>
+            </div>
+          </div>
+
+          <!-- PHOTO SLOTS — replace each placeholder with:
+               <img src="assets/images/hero-community.jpg" alt="Descriptive alt text" />
+               Recommended: 1200×900, landscape. -->
+          <div class="hero__media reveal">
+            <div class="photo" aria-hidden="true">
+              <p class="photo__note">Photo — community / mentorship moment</p>
+            </div>
+            <div class="photo" aria-hidden="true">
+              <p class="photo__note">Photo — event or group shot</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="hero__ticker">
+          <span>Mentorship</span>
+          <span>Community assistance</span>
+          <span>Partnerships</span>
+          <span>Ambassadors</span>
         </p>
       </div>
-      <div class="card-grid">
-        <div class="card">
-          <h3>Mentorship</h3>
-          <p>We match kids and teens with mentors who help with life skills, faith, career, and education.</p>
-        </div>
-        <div class="card">
-          <h3>Direct Support</h3>
-          <p>Food, clothing, shelter referrals, job assistance, and more for people in our community.</p>
-        </div>
-        <div class="card">
-          <h3>Partnership</h3>
-          <p>We work alongside churches, businesses, nonprofits, and shelters to multiply our impact.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section alt-bg" id="who">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">Who Can Join</div>
-        <h2>I am joining as...</h2>
-        <p>Every application is reviewed by our team before an account is fully activated.</p>
-      </div>
-      <div class="card-grid">
-        <div class="card">
-          <h3>Kid / Mentee</h3>
-          <p>Kids and teens participating in mentorship and RaqGiveback programs. Requires parent/guardian consent.</p>
-          <a class="btn btn-dark btn-small" href="signup.html?role=kid">Apply as a Kid / Mentee</a>
-        </div>
-        <div class="card">
-          <h3>Mentor</h3>
-          <p>Adults mentoring kids in life, faith, career, and education. Background screening required.</p>
-          <a class="btn btn-dark btn-small" href="signup.html?role=mentor">Apply as a Mentor</a>
-        </div>
-        <div class="card">
-          <h3>Partner</h3>
-          <p>Businesses, churches, nonprofits, and shelters who want to partner with RaqGiveback.</p>
-          <a class="btn btn-dark btn-small" href="signup.html?role=partner">Apply as a Partner</a>
-        </div>
-        <div class="card">
-          <h3>Ambassador</h3>
-          <p>People representing and promoting RaqGiveback in their own community.</p>
-          <a class="btn btn-dark btn-small" href="signup.html?role=ambassador">Apply as an Ambassador</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- ===================== 2. MISSION ===================== -->
+    <section class="band band--cream mission" id="mission" aria-labelledby="mission-title">
+      <div class="shell">
+        <p class="label">Our Mission</p>
+        <div class="mission__grid">
+          <div>
+            <h2 id="mission-title">
+              You don't have to let your <span class="hl">environment define you</span>.
+            </h2>
 
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">Already a Member?</div>
-        <h2>Sign in to see your dashboard.</h2>
-        <p>Mentors, ambassadors, partners, and kids each get a dashboard with events, programs, and announcements.</p>
-      </div>
-      <div class="btn-row">
-        <a class="btn btn-dark" href="signin.html">Sign In</a>
-        <a class="btn btn-outline" style="border-color:#14110f;color:#14110f" href="signup.html">Create an Account</a>
-      </div>
-    </div>
-  </section>
+            <div class="mission__body">
+              <p class="mission__quote">
+                RaqGiveback takes RAQ's message — that you can use the positive things around you to
+                better your circumstances — and puts it into action.
+              </p>
+              <p class="lede">
+                Through mentorship, community assistance, and partnership with local organizations, we
+                help kids and families build real opportunity. Every application is reviewed by our team,
+                and every mentor is screened before they're matched with a young person.
+              </p>
+              <p><a class="tlink" href="#involved">Find your place <span aria-hidden="true">&rarr;</span></a></p>
+            </div>
+          </div>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <p>RaqGiveback — a community-impact initiative connected to RAQ Apparel.</p>
-      <p><a href="signin.html">Sign In</a> · <a href="signup.html">Join Us</a></p>
+          <!-- PHOTO SLOTS — replace with <img src="..." alt="..." /> -->
+          <div class="mission__media reveal">
+            <div class="photo" aria-hidden="true">
+              <p class="photo__note">Photo — mentor &amp; mentee</p>
+            </div>
+            <div class="photo" aria-hidden="true">
+              <p class="photo__note">Photo — community gathering</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 3. PROGRAMS ===================== -->
+    <section class="band band--ink programs" id="programs" aria-labelledby="programs-title">
+      <div class="shell">
+        <p class="label">What We Do</p>
+        <div class="programs__head">
+          <h2 id="programs-title">Three ways we show up.</h2>
+          <p class="lede">Programs built around people, not paperwork.</p>
+        </div>
+
+        <article class="program reveal">
+          <div>
+            <p class="program__no">01</p>
+            <h3>Mentorship</h3>
+            <p class="program__tag">Guidance that goes beyond the classroom.</p>
+            <p class="lede">
+              We match kids and teens with screened mentors who help with life skills, faith, career,
+              and education.
+            </p>
+            <a class="tlink" href="signup.html?role=mentor">Become a mentor <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          <div class="program__media">
+            <!-- <img src="assets/images/program-mentorship.jpg" alt="A mentor talking with a student" /> -->
+            <div class="photo" aria-hidden="true">
+              <p class="photo__note">Photo — mentorship session</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="program reveal">
+          <div>
+            <p class="program__no">02</p>
+            <h3>Direct Support</h3>
+            <p class="program__tag">Showing up when our community needs us.</p>
+            <p class="lede">
+              Food, clothing, shelter referrals, job assistance, transportation, and more — tracked
+              person by person so help actually lands.
+            </p>
+            <a class="tlink" href="#involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          <div class="program__media">
+            <!-- <img src="assets/images/program-support.jpg" alt="Volunteers distributing supplies" /> -->
+            <div class="photo" aria-hidden="true">
+              <p class="photo__note">Photo — community assistance</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="program reveal">
+          <div>
+            <p class="program__no">03</p>
+            <h3>Partnership</h3>
+            <p class="program__tag">Creating more impact together.</p>
+            <p class="lede">
+              We work alongside churches, businesses, nonprofits, and shelters to multiply what any one
+              of us could do alone.
+            </p>
+            <a class="tlink" href="signup.html?role=partner">Partner with us <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          <div class="program__media">
+            <!-- <img src="assets/images/program-partnership.jpg" alt="Partner organization team" /> -->
+            <div class="photo" aria-hidden="true">
+              <p class="photo__note">Photo — partners at work</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== 4. IMPACT =====================
+         Every number below is rendered from the public_impact_stats view by
+         assets/js/public.js. Nothing here is hardcoded — the em dashes are
+         placeholders shown only until the data loads. -->
+    <section class="band band--cream2 impact" id="impact" aria-labelledby="impact-title">
+      <div class="shell">
+        <p class="label">Our Impact</p>
+        <div class="impact__head">
+          <h2 id="impact-title">Counted, not estimated.</h2>
+          <p class="impact__note">
+            These figures come straight from our records and update as the work happens.
+          </p>
+        </div>
+
+        <div class="impact__grid" data-impact>
+          <div class="stat stat--hero">
+            <span class="stat__num" id="stat-people">—</span>
+            <span class="stat__rule" aria-hidden="true"></span>
+            <span class="stat__label">People Assisted</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" id="stat-kids">—</span>
+            <span class="stat__rule" aria-hidden="true"></span>
+            <span class="stat__label">Kids Mentored</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" id="stat-mentors">—</span>
+            <span class="stat__rule" aria-hidden="true"></span>
+            <span class="stat__label">Mentors</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" id="stat-ambassadors">—</span>
+            <span class="stat__rule" aria-hidden="true"></span>
+            <span class="stat__label">Ambassadors</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" id="stat-partners">—</span>
+            <span class="stat__rule" aria-hidden="true"></span>
+            <span class="stat__label">Community Partners</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num" id="stat-services">—</span>
+            <span class="stat__rule" aria-hidden="true"></span>
+            <span class="stat__label">Services Provided</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 5. GET INVOLVED ===================== -->
+    <section class="band band--ink involve" id="involved" aria-labelledby="involve-title">
+      <div class="shell">
+        <p class="label">Get Involved</p>
+        <div class="involve__head">
+          <h2 id="involve-title">There's a place for you here.</h2>
+          <p class="lede">Find the way you want to make an impact.</p>
+        </div>
+
+        <div class="involve__grid">
+          <a class="involve-card" href="signup.html?role=kid">
+            <span class="involve-card__no">01</span>
+            <h3>Kid / Mentee</h3>
+            <p>Find mentorship, opportunities, and support.</p>
+            <span class="involve-card__cta">Apply <span aria-hidden="true">&rarr;</span></span>
+          </a>
+
+          <a class="involve-card" href="signup.html?role=mentor">
+            <span class="involve-card__no">02</span>
+            <h3>Mentor</h3>
+            <p>Help guide the next generation.</p>
+            <span class="involve-card__cta">Apply <span aria-hidden="true">&rarr;</span></span>
+          </a>
+
+          <a class="involve-card" href="signup.html?role=partner">
+            <span class="involve-card__no">03</span>
+            <h3>Partner</h3>
+            <p>Bring resources and opportunities to the community.</p>
+            <span class="involve-card__cta">Apply <span aria-hidden="true">&rarr;</span></span>
+          </a>
+
+          <a class="involve-card" href="signup.html?role=ambassador">
+            <span class="involve-card__no">04</span>
+            <h3>Ambassador</h3>
+            <p>Represent RaqGiveback and expand the mission.</p>
+            <span class="involve-card__cta">Apply <span aria-hidden="true">&rarr;</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 6. COMMUNITY / STORIES =====================
+         Structure is ready for real photography and real stories. Nothing is
+         invented here on purpose — the slots stay visibly empty until you
+         have genuine content to drop in. -->
+    <section class="band band--cream community" id="community" aria-labelledby="community-title">
+      <div class="shell">
+        <p class="label">Our Community</p>
+        <div class="community__head">
+          <h2 id="community-title">Real people. Real work.</h2>
+          <p class="lede">Moments from events, mentorship, and the everyday work of showing up.</p>
+        </div>
+
+        <!-- PHOTO GRID — replace each placeholder with:
+             <img src="assets/images/community-01.jpg" alt="Descriptive alt text" /> -->
+        <div class="gallery reveal">
+          <div class="photo g-tall" aria-hidden="true">
+            <p class="photo__note">Event photography</p>
+          </div>
+          <div class="photo g-wide" aria-hidden="true">
+            <p class="photo__note">Volunteers / community</p>
+          </div>
+          <div class="photo" aria-hidden="true">
+            <p class="photo__note">Mentorship moment</p>
+          </div>
+          <div class="photo" aria-hidden="true">
+            <p class="photo__note">Community assistance</p>
+          </div>
+          <div class="photo g-wide" aria-hidden="true">
+            <p class="photo__note">Group / team</p>
+          </div>
+        </div>
+
+        <!-- STORY SLOTS — replace .story__slot text with a real quote or short
+             story, and add attribution only with that person's permission. -->
+        <div class="stories reveal">
+          <article class="story">
+            <p class="story__kind">Mentorship story</p>
+            <p class="story__slot">Story slot — add a real mentorship story here.</p>
+          </article>
+          <article class="story">
+            <p class="story__kind">Community assistance</p>
+            <p class="story__slot">Story slot — add a real assistance story here.</p>
+          </article>
+          <article class="story">
+            <p class="story__kind">Partner spotlight</p>
+            <p class="story__slot">Story slot — add a real partner spotlight here.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 7. PARTNERS ===================== -->
+    <section class="band band--cream2 partners" id="partners" aria-labelledby="partners-title">
+      <div class="shell">
+        <p class="label">Partners</p>
+        <div class="community__head">
+          <h2 id="partners-title">Stronger together.</h2>
+          <p class="lede">Churches, businesses, nonprofits, and shelters working with us.</p>
+        </div>
+
+        <!-- LOGO SLOTS — replace each with:
+             <img src="assets/images/partner-name.svg" alt="Partner name" />
+             SVG or transparent PNG, max height ~54px. -->
+        <div class="partners__grid reveal">
+          <div class="partner-slot">Partner logo</div>
+          <div class="partner-slot">Partner logo</div>
+          <div class="partner-slot">Partner logo</div>
+          <div class="partner-slot">Partner logo</div>
+          <div class="partner-slot">Partner logo</div>
+          <div class="partner-slot">Partner logo</div>
+        </div>
+
+        <a class="tlink" href="signup.html?role=partner">
+          Become a partner <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== 8. FINAL CTA ===================== -->
+    <section class="final" aria-labelledby="final-title">
+      <div class="shell">
+        <div class="final__rule" aria-hidden="true"></div>
+        <h2 id="final-title">
+          Build something <span class="accent">bigger than yourself</span>.
+        </h2>
+        <p class="lede">
+          Join as a mentee, mentor, partner, or ambassador — and help build what comes next.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="signup.html">Get Involved</a>
+          <a class="btn btn-ghost-light" href="signin.html">Sign In</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== 9. FOOTER ===================== -->
+  <footer class="site-foot">
+    <div class="shell">
+      <div class="site-foot__top">
+        <div class="site-foot__brand">
+          <a class="wordmark" href="index.html">RAQ<b>GIVEBACK</b><i aria-hidden="true">.</i></a>
+          <p class="site-foot__blurb">
+            A community-impact initiative connected to RAQ Apparel — giving back, building lives, and
+            creating opportunity.
+          </p>
+        </div>
+
+        <div>
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#mission">Our Mission</a></li>
+            <li><a href="#programs">Programs</a></li>
+            <li><a href="#impact">Impact</a></li>
+            <li><a href="#community">Community</a></li>
+            <li><a href="#partners">Partners</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Join</h4>
+          <ul>
+            <li><a href="signup.html?role=kid">Kid / Mentee</a></li>
+            <li><a href="signup.html?role=mentor">Mentor</a></li>
+            <li><a href="signup.html?role=partner">Partner</a></li>
+            <li><a href="signup.html?role=ambassador">Ambassador</a></li>
+            <li><a href="signin.html">Sign In</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="site-foot__bottom">
+        <p>&copy; RaqGiveback. All rights reserved.</p>
+        <p>Applications are reviewed before accounts are activated.</p>
+      </div>
     </div>
   </footer>
 
-  <script type="module">
-    import { supabase, warnIfNotConfigured } from "./assets/js/supabaseClient.js";
-
-    warnIfNotConfigured();
-
-    async function loadStats() {
-      if (!supabase) return;
-      const { data, error } = await supabase.from("public_impact_stats").select("*").maybeSingle();
-      if (error || !data) return;
-      const set = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = (val ?? 0).toLocaleString();
-      };
-      set("stat-kids", data.kids_mentored);
-      set("stat-mentors", data.mentors);
-      set("stat-ambassadors", data.ambassadors);
-      set("stat-partners", data.community_partners);
-      set("stat-people", data.people_assisted);
-    }
-    loadStats();
-  </script>
+  <script type="module" src="assets/js/public.js"></script>
 </body>
 </html>

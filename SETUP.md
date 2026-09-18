@@ -30,13 +30,19 @@ hiding a menu item in the browser.
 
 ## 2. Connect the site to your project
 
-1. In Supabase: **Project Settings** → **API**.
-2. Copy the **Project URL** and the **anon public** key (not the service role key).
+1. In Supabase: **Project Settings** → **API Keys**.
+2. Copy the **Project URL** and the **Publishable key** (`sb_publishable_...`)
+   — **not** the anon/legacy key, and not the secret/service-role key.
+   Newer Supabase projects reject the legacy JWT-style anon key at the Edge
+   Functions gateway outright (401 `INVALID_API_KEY`) even though it still
+   works fine against the regular database/auth REST API — the mismatch is
+   confusing because most things appear to work with either key until you
+   hit a function call. Use the publishable key everywhere to avoid that.
 3. Open `assets/js/config.js` in this repo and paste them in:
 
    ```js
    export const SUPABASE_URL = "https://xxxxxxxx.supabase.co";
-   export const SUPABASE_ANON_KEY = "eyJhbGciOi...";
+   export const SUPABASE_ANON_KEY = "sb_publishable_...";
    ```
 
 4. Commit and push — GitHub Pages will pick it up automatically.
@@ -76,23 +82,58 @@ ability to sign in, which needs the **service-role key**. That key must
 never be shipped to the browser (it bypasses every RLS policy), so this one
 action runs as a Supabase Edge Function instead of a normal database call.
 
+**Recommended: use the Supabase MCP connector** (either the official
+`Supabase` connector via claude.ai's connector settings for a cloud session,
+or `claude mcp add ... supabase` for local Claude Code — see the project's
+`.mcp.json`). Once connected, deploying is one step and there's no chance of
+a copy-paste mistake going unnoticed.
+
+If you're deploying by hand instead:
+
 1. In Supabase: **Edge Functions** → **Deploy a new function** → name it
    exactly `admin-set-member-status`.
-2. Paste in the contents of
+2. Paste in the **entire** contents of
    [`supabase/functions/admin-set-member-status/index.ts`](supabase/functions/admin-set-member-status/index.ts)
-   and deploy. No secrets to configure — Supabase automatically injects
-   `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` into
-   every Edge Function.
-3. If your GitHub integration also has Edge Functions deployment enabled, it
-   may pick this up automatically on push — but check the dashboard to
-   confirm, since (like the migrations) that hasn't always applied
-   automatically. Deploying it by hand in step 1–2 always works.
+   — replacing the default template body completely — and deploy. No
+   secrets to configure — Supabase automatically injects `SUPABASE_URL`,
+   `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` into every Edge
+   Function.
+3. **Verify it, don't just trust the deploy succeeded.** The first time this
+   was deployed by hand, the dashboard's default "Hello world!" template was
+   left in place instead of this file's code — the deploy succeeded and the
+   function ran, it just weren't running the right code, so every Reject
+   click failed silently until this was caught. Confirm with:
+
+   ```bash
+   curl -X POST 'https://YOUR_PROJECT_REF.supabase.co/functions/v1/admin-set-member-status' \
+     -H "apikey: YOUR_PUBLISHABLE_KEY"
+   # Expect: {"error":"Missing authorization"}  (HTTP 401)
+   # If you instead see {"message":"Hello ...!"} the template is still deployed.
+   ```
+4. If your GitHub integration also has Edge Functions deployment enabled, it
+   may pick this up automatically on push — but check either way, since
+   (like the migrations) that hasn't always applied automatically.
 
 Note: banning revokes future sign-ins immediately, but if the rejected
 person already has an active session open in their browser, that specific
 session can remain valid for up to an hour (Supabase access tokens are
 short-lived but not instantly revocable) before it expires and they're
 locked out.
+
+## 6. One optional manual toggle
+
+Supabase's security advisor flags **Leaked Password Protection** as
+disabled — it checks new passwords against HaveIBeenPwned.org and isn't
+something a migration can turn on. Enable it under **Authentication** →
+**Sign In / Providers** → **Password** (or search "leaked password" in Auth
+settings) if you want it.
+
+Everything else the advisor flags is either fixed by the migrations in this
+repo or intentional and documented inline in the SQL:
+`public_impact_stats` is deliberately a `security definer` view so it can
+expose aggregate counts publicly without granting direct table access, and
+`is_admin()` deliberately keeps its public `EXECUTE` grant because RLS
+policies call it directly.
 
 ## Approving members
 
