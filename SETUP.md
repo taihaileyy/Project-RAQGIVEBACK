@@ -69,12 +69,41 @@ it on.
    approvals. No other role can reach or query that data; it's blocked at the
    database level even if someone edits the page's JavaScript.
 
+## 5. Deploy the admin Edge Function (needed for Reject to work)
+
+Rejecting a member doesn't just flip a status flag — it also revokes their
+ability to sign in, which needs the **service-role key**. That key must
+never be shipped to the browser (it bypasses every RLS policy), so this one
+action runs as a Supabase Edge Function instead of a normal database call.
+
+1. In Supabase: **Edge Functions** → **Deploy a new function** → name it
+   exactly `admin-set-member-status`.
+2. Paste in the contents of
+   [`supabase/functions/admin-set-member-status/index.ts`](supabase/functions/admin-set-member-status/index.ts)
+   and deploy. No secrets to configure — Supabase automatically injects
+   `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` into
+   every Edge Function.
+3. If your GitHub integration also has Edge Functions deployment enabled, it
+   may pick this up automatically on push — but check the dashboard to
+   confirm, since (like the migrations) that hasn't always applied
+   automatically. Deploying it by hand in step 1–2 always works.
+
+Note: banning revokes future sign-ins immediately, but if the rejected
+person already has an active session open in their browser, that specific
+session can remain valid for up to an hour (Supabase access tokens are
+short-lived but not instantly revocable) before it expires and they're
+locked out.
+
 ## Approving members
 
 Every new signup (kid, mentor, partner, ambassador) starts as **pending**.
-Go to Admin → **Members** → **Pending** to approve or reject applications.
-Members see a "your application is under review" banner on their dashboard
-until you approve them.
+Go to Admin → **Members** to review by tab: **Pending**, a role, **All**
+(everyone except rejected), or **Rejected** (a kept record of who was
+turned down — they're excluded from every other view but not deleted, so
+you still have a paper trail). **Approve** activates the account; **Reject**
+also revokes their ability to sign in. Any admin can also click **Make
+Admin** next to any member to promote them — useful for bringing on
+additional admins as the org grows.
 
 ## Important: minors and legal review
 

@@ -113,7 +113,9 @@ async function loadMembers() {
   }
   let rows = data || [];
   if (currentMemberFilter === "pending") rows = rows.filter((p) => p.status === "pending");
-  else if (currentMemberFilter !== "all") rows = rows.filter((p) => p.role === currentMemberFilter);
+  else if (currentMemberFilter === "rejected") rows = rows.filter((p) => p.status === "rejected");
+  else if (currentMemberFilter === "all") rows = rows.filter((p) => p.status !== "rejected");
+  else rows = rows.filter((p) => p.role === currentMemberFilter && p.status !== "rejected");
 
   if (!rows.length) {
     tbody.innerHTML = `<tr class="empty-row"><td colspan="6">No members in this view.</td></tr>`;
@@ -140,6 +142,11 @@ async function loadMembers() {
               ? `<button class="btn btn-danger btn-small" data-reject="${p.id}">Reject</button>`
               : ""
           }
+          ${
+            p.role !== "admin"
+              ? `<button class="btn btn-small btn-dark" data-promote="${p.id}">Make Admin</button>`
+              : ""
+          }
         </td>
       </tr>`
     )
@@ -149,15 +156,36 @@ async function loadMembers() {
     btn.addEventListener("click", () => updateMemberStatus(btn.dataset.approve, "approved"))
   );
   tbody.querySelectorAll("[data-reject]").forEach((btn) =>
-    btn.addEventListener("click", () => updateMemberStatus(btn.dataset.reject, "rejected"))
+    btn.addEventListener("click", () => {
+      if (confirm("Reject this application? They will lose the ability to sign in.")) {
+        updateMemberStatus(btn.dataset.reject, "rejected");
+      }
+    })
+  );
+  tbody.querySelectorAll("[data-promote]").forEach((btn) =>
+    btn.addEventListener("click", () => promoteToAdmin(btn.dataset.promote))
   );
   tbody.querySelectorAll("[data-bgcheck]").forEach((sel) =>
     sel.addEventListener("change", () => updateBackgroundCheck(sel.dataset.bgcheck, sel.value))
   );
 }
 
+// Approving/rejecting goes through an Edge Function (not a direct table
+// update) because rejecting has to also revoke the person's ability to sign
+// in, which requires the service-role key — something that can only run
+// server-side, never in this client-side file.
 async function updateMemberStatus(id, status) {
-  const { error } = await supabase.from("profiles").update({ status }).eq("id", id);
+  const { data, error } = await supabase.functions.invoke("admin-set-member-status", {
+    body: { userId: id, status },
+  });
+  if (error || data?.error) return alert(data?.error || error.message);
+  await loadMembers();
+  await loadOverview();
+}
+
+async function promoteToAdmin(id) {
+  if (!confirm("Promote this member to admin? They will get full access to expenses, receipts, and all member data.")) return;
+  const { error } = await supabase.from("profiles").update({ role: "admin", status: "approved" }).eq("id", id);
   if (error) return alert(error.message);
   await loadMembers();
   await loadOverview();
