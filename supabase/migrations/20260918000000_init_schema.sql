@@ -1,8 +1,8 @@
 -- RaqGiveback database schema
--- Run this once in your Supabase project's SQL Editor (Project > SQL Editor > New query).
--- This creates every table the site needs and locks financial / personal-assistance
--- data down with Row Level Security (RLS) so it is enforced by Postgres itself,
--- not just hidden in the UI.
+-- Applied automatically by Supabase's GitHub integration on push to the
+-- linked branch. Creates every table the site needs and locks financial /
+-- personal-assistance data down with Row Level Security (RLS) so it is
+-- enforced by Postgres itself, not just hidden in the UI.
 
 -- ============================================================================
 -- 1. PROFILES  (one row per member: kid, mentor, partner, ambassador, admin)
@@ -228,19 +228,15 @@ grant select on public.public_impact_stats to anon, authenticated;
 
 -- ============================================================================
 -- 7. STORAGE — a private bucket for expense receipts / invoices.
---    Create the bucket "raqgiveback-files" from the Storage tab (uncheck
---    "Public bucket"), then run the policies below in the SQL editor.
+--    Created here so it exists automatically once this migration runs;
+--    stays private (not a "public bucket") and is admin-only via RLS below.
 -- ============================================================================
 
--- create policy "receipts_admin_read" on storage.objects
---   for select using (bucket_id = 'raqgiveback-files' and public.is_admin());
--- create policy "receipts_admin_write" on storage.objects
---   for insert with check (bucket_id = 'raqgiveback-files' and public.is_admin());
+insert into storage.buckets (id, name, public)
+values ('raqgiveback-files', 'raqgiveback-files', false)
+on conflict (id) do nothing;
 
--- ============================================================================
--- 8. YOUR FIRST ADMIN
---    Sign up normally on the site once (any role), then run this with your
---    own user id (find it in Authentication > Users) to promote yourself:
--- ============================================================================
-
--- update public.profiles set role = 'admin', status = 'approved' where id = 'PASTE-YOUR-AUTH-USER-UUID-HERE';
+create policy "receipts_admin_read" on storage.objects
+  for select using (bucket_id = 'raqgiveback-files' and public.is_admin());
+create policy "receipts_admin_write" on storage.objects
+  for insert with check (bucket_id = 'raqgiveback-files' and public.is_admin());
