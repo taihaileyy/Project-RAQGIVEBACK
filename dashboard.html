@@ -27,6 +27,8 @@
       <button class="sidebar-link" data-tab-link="events">Events</button>
       <button class="sidebar-link" data-tab-link="announcements">Announcements</button>
       <button class="sidebar-link" data-tab-link="profile">My Profile</button>
+      <button class="sidebar-link" data-tab-link="mentees" id="mentees-link" hidden>My Mentees</button>
+      <button class="sidebar-link" data-tab-link="mentor" id="mentor-link" hidden>My Mentor</button>
       <a href="admin.html" id="admin-link" hidden>Admin Dashboard</a>
       <button class="sidebar-link" data-sign-out>Sign Out</button>
     </aside>
@@ -73,6 +75,32 @@
         <p class="page-subtitle">&nbsp;</p>
         <table class="data-table" id="profile-table">
           <tbody></tbody>
+        </table>
+      </section>
+
+      <section data-tab-panel="mentees" hidden>
+        <h1>My Mentees</h1>
+        <p class="page-subtitle">Kids you're currently mentoring.</p>
+        <table class="data-table">
+          <thead>
+            <tr><th>Name</th><th>Age</th><th>School / Grade</th><th>Interests</th><th>Guardian Contact</th></tr>
+          </thead>
+          <tbody id="mentees-body">
+            <tr class="empty-row"><td colspan="5">Loading...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section data-tab-panel="mentor" hidden>
+        <h1>My Mentor</h1>
+        <p class="page-subtitle">&nbsp;</p>
+        <table class="data-table">
+          <thead>
+            <tr><th>Name</th><th>Contact</th><th>Mentoring In</th></tr>
+          </thead>
+          <tbody id="mentor-body">
+            <tr class="empty-row"><td colspan="3">Loading...</td></tr>
+          </tbody>
         </table>
       </section>
     </main>
@@ -168,6 +196,67 @@
       } else {
         annBody.innerHTML = `<tr class="empty-row"><td colspan="3">No announcements yet.</td></tr>`;
       }
+
+      // Mentor -> My Mentees
+      if (profile?.role === "mentor") {
+        document.getElementById("mentees-link").hidden = false;
+        const { data: assignments } = await supabase
+          .from("mentor_assignments")
+          .select("*, kid:profiles!mentor_assignments_kid_id_fkey(full_name, dob, school, grade, interests, guardian_name, guardian_phone, guardian_email)")
+          .eq("mentor_id", result.user.id)
+          .eq("status", "active");
+        const menteesBody = document.getElementById("mentees-body");
+        if (assignments && assignments.length) {
+          menteesBody.innerHTML = assignments
+            .map((a) => {
+              const k = a.kid || {};
+              const age = ageFromDob(k.dob);
+              return `<tr>
+                <td>${esc(k.full_name)}</td>
+                <td>${age ?? "—"}</td>
+                <td>${esc(k.school)} ${esc(k.grade ? `(Grade ${k.grade})` : "")}</td>
+                <td>${esc(k.interests)}</td>
+                <td>${esc(k.guardian_name)}<br/>${esc(k.guardian_phone)} · ${esc(k.guardian_email)}</td>
+              </tr>`;
+            })
+            .join("");
+        } else {
+          menteesBody.innerHTML = `<tr class="empty-row"><td colspan="5">No kids assigned to you yet — an admin will assign mentees from the Mentorship tab.</td></tr>`;
+        }
+      }
+
+      // Kid -> My Mentor
+      if (profile?.role === "kid") {
+        document.getElementById("mentor-link").hidden = false;
+        const { data: assignments } = await supabase
+          .from("mentor_assignments")
+          .select("*, mentor:profiles!mentor_assignments_mentor_id_fkey(full_name, phone, email, mentor_area)")
+          .eq("kid_id", result.user.id)
+          .eq("status", "active");
+        const mentorBody = document.getElementById("mentor-body");
+        if (assignments && assignments.length) {
+          mentorBody.innerHTML = assignments
+            .map((a) => {
+              const m = a.mentor || {};
+              return `<tr>
+                <td>${esc(m.full_name)}</td>
+                <td>${esc(m.phone)}<br/>${esc(m.email)}</td>
+                <td>${esc(m.mentor_area)}</td>
+              </tr>`;
+            })
+            .join("");
+        } else {
+          mentorBody.innerHTML = `<tr class="empty-row"><td colspan="3">No mentor assigned yet — an admin will match you with one soon.</td></tr>`;
+        }
+      }
+    }
+
+    function ageFromDob(dob) {
+      if (!dob) return null;
+      const birth = new Date(dob);
+      if (Number.isNaN(birth.getTime())) return null;
+      const diff = Date.now() - birth.getTime();
+      return Math.floor(diff / (365.25 * 24 * 60 * 60 * 1000));
     }
 
     init();

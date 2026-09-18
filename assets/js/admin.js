@@ -90,7 +90,15 @@ async function loadOverview() {
 let currentMemberFilter = "pending";
 
 function memberDetails(p) {
-  if (p.role === "mentor") return `Area: ${esc(p.mentor_area || "—")}<br/>Background: ${esc(p.background_check_status || "pending")}`;
+  if (p.role === "mentor") {
+    const status = p.background_check_status || "pending";
+    return `Area: ${esc(p.mentor_area || "—")}<br/>Background:
+      <select data-bgcheck="${p.id}" class="btn-small" style="padding:2px 6px">
+        <option value="pending" ${status === "pending" ? "selected" : ""}>Pending</option>
+        <option value="cleared" ${status === "cleared" ? "selected" : ""}>Cleared</option>
+        <option value="flagged" ${status === "flagged" ? "selected" : ""}>Flagged</option>
+      </select>`;
+  }
   if (p.role === "partner") return `${esc(p.org_name || "—")}<br/>${esc(p.partnership_type || "")}`;
   if (p.role === "kid") return `DOB: ${esc(p.dob || "—")}<br/>Guardian: ${esc(p.guardian_name || "—")} (${esc(p.guardian_phone || "—")})`;
   return "—";
@@ -143,6 +151,9 @@ async function loadMembers() {
   tbody.querySelectorAll("[data-reject]").forEach((btn) =>
     btn.addEventListener("click", () => updateMemberStatus(btn.dataset.reject, "rejected"))
   );
+  tbody.querySelectorAll("[data-bgcheck]").forEach((sel) =>
+    sel.addEventListener("change", () => updateBackgroundCheck(sel.dataset.bgcheck, sel.value))
+  );
 }
 
 async function updateMemberStatus(id, status) {
@@ -152,6 +163,12 @@ async function updateMemberStatus(id, status) {
   await loadOverview();
 }
 
+async function updateBackgroundCheck(id, background_check_status) {
+  const { error } = await supabase.from("profiles").update({ background_check_status }).eq("id", id);
+  if (error) return alert(error.message);
+  await loadMembers();
+}
+
 document.querySelectorAll("#member-tabs button").forEach((btn) => {
   btn.addEventListener("click", () => {
     document.querySelectorAll("#member-tabs button").forEach((b) => b.classList.remove("active"));
@@ -159,6 +176,76 @@ document.querySelectorAll("#member-tabs button").forEach((btn) => {
     currentMemberFilter = btn.dataset.filter;
     loadMembers();
   });
+});
+
+// ---------------------------------------------------------------------------
+// Mentorship
+// ---------------------------------------------------------------------------
+
+async function loadMentorship() {
+  const [{ data: mentors }, { data: kids }, { data: assignments, error }] = await Promise.all([
+    supabase.from("profiles").select("id, full_name").eq("role", "mentor").eq("status", "approved").order("full_name"),
+    supabase.from("profiles").select("id, full_name").eq("role", "kid").eq("status", "approved").order("full_name"),
+    supabase
+      .from("mentor_assignments")
+      .select("*, mentor:profiles!mentor_assignments_mentor_id_fkey(full_name), kid:profiles!mentor_assignments_kid_id_fkey(full_name)")
+      .order("created_at", { ascending: false }),
+  ]);
+
+  const mentorSelect = document.getElementById("assign-mentor");
+  const kidSelect = document.getElementById("assign-kid");
+  mentorSelect.innerHTML =
+    `<option value="">Select an approved mentor…</option>` +
+    (mentors || []).map((m) => `<option value="${m.id}">${esc(m.full_name)}</option>`).join("");
+  kidSelect.innerHTML =
+    `<option value="">Select an approved kid…</option>` +
+    (kids || []).map((k) => `<option value="${k.id}">${esc(k.full_name)}</option>`).join("");
+
+  const tbody = document.getElementById("assignments-body");
+  if (error) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="6">${esc(error.message)}</td></tr>`;
+    return;
+  }
+  if (!assignments || !assignments.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="6">No mentor assignments yet.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = assignments
+    .map(
+      (a) => `
+      <tr>
+        <td>${esc(a.mentor?.full_name)}</td>
+        <td>${esc(a.kid?.full_name)}</td>
+        <td>${esc(new Date(a.created_at).toLocaleDateString())}</td>
+        <td><span class="status-badge ${esc(a.status)}">${esc(a.status)}</span></td>
+        <td>${esc(a.notes)}</td>
+        <td>${a.status === "active" ? `<button class="btn btn-small btn-danger" data-end-assignment="${a.id}">End</button>` : "—"}</td>
+      </tr>`
+    )
+    .join("");
+
+  tbody.querySelectorAll("[data-end-assignment]").forEach((btn) =>
+    btn.addEventListener("click", async () => {
+      await supabase.from("mentor_assignments").update({ status: "ended" }).eq("id", btn.dataset.endAssignment);
+      loadMentorship();
+    })
+  );
+}
+
+document.getElementById("assignment-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const mentor_id = document.getElementById("assign-mentor").value;
+  const kid_id = document.getElementById("assign-kid").value;
+  if (!mentor_id || !kid_id) return;
+  const { error } = await supabase.from("mentor_assignments").insert({
+    mentor_id,
+    kid_id,
+    notes: document.getElementById("assign-notes").value.trim(),
+  });
+  if (error) return alert(error.message);
+  e.target.reset();
+  loadMentorship();
 });
 
 // ---------------------------------------------------------------------------
@@ -506,6 +593,7 @@ async function init() {
   await Promise.all([
     loadOverview(),
     loadMembers(),
+    loadMentorship(),
     loadExpenses(),
     loadPeopleAndRecords(),
     loadOperations(),
