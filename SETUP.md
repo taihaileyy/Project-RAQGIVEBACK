@@ -20,6 +20,9 @@ hiding a menu item in the browser.
    assistance_records, operations, events, announcements), the `is_admin()`
    helper, the RLS policies that lock financial/personal data to admins only,
    and the private `raqgiveback-files` storage bucket for receipts/invoices.
+   [`supabase/migrations/20260918010000_profile_auto_create_trigger.sql`](supabase/migrations/20260918010000_profile_auto_create_trigger.sql)
+   adds a trigger that creates a member's `profiles` row automatically at
+   signup (server-side, so it works whether or not "Confirm email" is on).
 4. If you'd rather run it by hand (or the integration hasn't caught up yet),
    open **SQL Editor** → **New query** in Supabase, paste the entire contents
    of that migration file, and run it — it's safe to re-run (uses
