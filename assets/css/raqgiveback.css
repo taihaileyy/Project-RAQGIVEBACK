@@ -472,9 +472,16 @@ footer.site-footer a {
   color: var(--rg-gold);
   text-decoration: none;
 }
-.app-sidebar a.active {
+.app-sidebar a.active, .app-sidebar button.sidebar-link.active {
   background: rgba(215, 161, 59, 0.15);
   color: var(--rg-gold);
+}
+
+/* .app-sidebar a's `display: block` above outranks the browser's default
+   [hidden] { display: none } (one more class in the selector), so a hidden
+   sidebar link would otherwise still render. Restore the hide. */
+.app-sidebar a[hidden], .app-sidebar button[hidden] {
+  display: none;
 }
 
 .app-main {

@@ -23,27 +23,28 @@
         <div class="name" id="side-name">...</div>
         <div class="role-badge" id="side-role">...</div>
       </div>
-      <a href="dashboard.html" class="active">Dashboard</a>
-      <a href="dashboard.html#events">Events</a>
-      <a href="dashboard.html#announcements">Announcements</a>
-      <a href="dashboard.html#profile">My Profile</a>
+      <button class="sidebar-link active" data-tab-link="overview">Dashboard</button>
+      <button class="sidebar-link" data-tab-link="events">Events</button>
+      <button class="sidebar-link" data-tab-link="announcements">Announcements</button>
+      <button class="sidebar-link" data-tab-link="profile">My Profile</button>
       <a href="admin.html" id="admin-link" hidden>Admin Dashboard</a>
       <button class="sidebar-link" data-sign-out>Sign Out</button>
     </aside>
 
     <main class="app-main">
-      <div id="pending-banner" class="banner pending" hidden>
-        Your application is under review. Once an admin approves your account you'll get full access to
-        programs, events, and messages.
-      </div>
-
-      <h1>Welcome, <span id="welcome-name">there</span> 👋</h1>
-      <p class="page-subtitle">Your Role: <span id="welcome-role" class="role-badge">—</span></p>
-
-      <section class="admin-section" id="events">
-        <div class="section-title-row">
-          <h2>Upcoming Events</h2>
+      <section data-tab-panel="overview">
+        <div id="pending-banner" class="banner pending" hidden>
+          Your application is under review. Once an admin approves your account you'll get full access to
+          programs, events, and messages.
         </div>
+
+        <h1>Welcome, <span id="welcome-name">there</span> 👋</h1>
+        <p class="page-subtitle">Your Role: <span id="welcome-role" class="role-badge">—</span></p>
+      </section>
+
+      <section data-tab-panel="events" hidden>
+        <h1>Upcoming Events</h1>
+        <p class="page-subtitle">&nbsp;</p>
         <table class="data-table">
           <thead>
             <tr><th>Date</th><th>Title</th><th>Location</th><th>Description</th></tr>
@@ -54,10 +55,9 @@
         </table>
       </section>
 
-      <section class="admin-section" id="announcements">
-        <div class="section-title-row">
-          <h2>Announcements</h2>
-        </div>
+      <section data-tab-panel="announcements" hidden>
+        <h1>Announcements</h1>
+        <p class="page-subtitle">&nbsp;</p>
         <table class="data-table">
           <thead>
             <tr><th>Date</th><th>Title</th><th>Message</th></tr>
@@ -68,10 +68,9 @@
         </table>
       </section>
 
-      <section class="admin-section" id="profile">
-        <div class="section-title-row">
-          <h2>My Profile</h2>
-        </div>
+      <section data-tab-panel="profile" hidden>
+        <h1>My Profile</h1>
+        <p class="page-subtitle">&nbsp;</p>
         <table class="data-table" id="profile-table">
           <tbody></tbody>
         </table>
@@ -89,6 +88,17 @@
     const esc = (v) => (v == null ? "" : String(v).replace(/[&<>"']/g, (c) => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     }[c])));
+
+    // --- Tabs: swap which panel is visible, no page reload or anchor-jump ---
+    const tabLinks = document.querySelectorAll("[data-tab-link]");
+    const tabPanels = document.querySelectorAll("[data-tab-panel]");
+    function showTab(name) {
+      tabPanels.forEach((p) => (p.hidden = p.dataset.tabPanel !== name));
+      tabLinks.forEach((l) => l.classList.toggle("active", l.dataset.tabLink === name));
+    }
+    tabLinks.forEach((link) => {
+      link.addEventListener("click", () => showTab(link.dataset.tabLink));
+    });
 
     async function init() {
       const result = await requireAuth();

@@ -28,6 +28,17 @@ document.querySelectorAll(".modal-backdrop").forEach((backdrop) => {
   });
 });
 
+// --- Sidebar tabs: swap which panel is visible, no page reload or anchor-jump ---
+const tabLinks = document.querySelectorAll("[data-tab-link]");
+const tabPanels = document.querySelectorAll("[data-tab-panel]");
+function showTab(name) {
+  tabPanels.forEach((p) => (p.hidden = p.dataset.tabPanel !== name));
+  tabLinks.forEach((l) => l.classList.toggle("active", l.dataset.tabLink === name));
+}
+tabLinks.forEach((link) => {
+  link.addEventListener("click", () => showTab(link.dataset.tabLink));
+});
+
 async function uploadFile(inputEl, folder) {
   const file = inputEl.files?.[0];
   if (!file) return null;
