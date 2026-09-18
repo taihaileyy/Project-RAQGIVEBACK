@@ -6,30 +6,26 @@ file storage. Supabase gives every table Row Level Security (RLS), so "only
 admins can see spending" is enforced by the database itself, not just by
 hiding a menu item in the browser.
 
-## 1. Create a Supabase project
+## 1. Create a Supabase project and connect it to this repo
 
-1. Go to [supabase.com](https://supabase.com) and create a free account/project.
-2. Wait for the project to finish provisioning (a couple of minutes).
-
-## 2. Run the database schema
-
-1. In your Supabase project, open **SQL Editor** → **New query**.
-2. Paste the entire contents of [`supabase/schema.sql`](supabase/schema.sql) and run it.
-   This creates every table (profiles, expenses, people_assisted,
+1. Go to [supabase.com](https://supabase.com) and create a free account/project
+   (e.g. named "raqgiveback").
+2. In the Supabase dashboard: **Project Settings** → **Integrations** → **GitHub**,
+   and connect it to this repository, watching the branch you deploy from
+   (typically `main`) with the `supabase` directory.
+3. Once connected, every push that includes new files under
+   `supabase/migrations/` is applied to your live database automatically —
+   including [`supabase/migrations/20260918000000_init_schema.sql`](supabase/migrations/20260918000000_init_schema.sql),
+   which creates every table (profiles, expenses, people_assisted,
    assistance_records, operations, events, announcements), the `is_admin()`
-   helper, and the RLS policies that lock financial/personal data to admins
-   only.
+   helper, the RLS policies that lock financial/personal data to admins only,
+   and the private `raqgiveback-files` storage bucket for receipts/invoices.
+4. If you'd rather run it by hand (or the integration hasn't caught up yet),
+   open **SQL Editor** → **New query** in Supabase, paste the entire contents
+   of that migration file, and run it — it's safe to re-run (uses
+   `if not exists` / `on conflict do nothing`).
 
-## 3. Create the file storage bucket (for receipts & invoices)
-
-1. Go to **Storage** → **New bucket**.
-2. Name it exactly `raqgiveback-files`.
-3. Leave **Public bucket** unchecked (it must stay private).
-4. Back in the SQL Editor, uncomment and run the two `storage.objects`
-   policies at the bottom of `supabase/schema.sql` (section 7) so only admins
-   can read/write files in that bucket.
-
-## 4. Connect the site to your project
+## 2. Connect the site to your project
 
 1. In Supabase: **Project Settings** → **API**.
 2. Copy the **Project URL** and the **anon public** key (not the service role key).
@@ -46,14 +42,14 @@ These two values are meant to be public (they ship to every visitor's
 browser); real protection comes from the RLS policies in step 2, not from
 keeping this key secret.
 
-## 5. Turn off "Confirm email" (optional, for faster testing)
+## 3. Turn off "Confirm email" (optional, for faster testing)
 
 By default Supabase requires email confirmation before a new account can sign
 in. For local testing you can turn this off under **Authentication** →
 **Providers** → **Email** → disable "Confirm email". For a real launch, leave
 it on.
 
-## 6. Make yourself the first admin
+## 4. Make yourself the first admin
 
 1. On the live site, sign up normally (pick any role).
 2. In Supabase, go to **Authentication** → **Users** and copy your user's UUID.
