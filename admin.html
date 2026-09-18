@@ -25,6 +25,7 @@
       </div>
       <button class="sidebar-link active" data-tab-link="overview">Overview</button>
       <button class="sidebar-link" data-tab-link="members">Members</button>
+      <button class="sidebar-link" data-tab-link="mentorship">Mentorship</button>
       <button class="sidebar-link" data-tab-link="expenses">Expenses</button>
       <button class="sidebar-link" data-tab-link="assistance">Community Assistance</button>
       <button class="sidebar-link" data-tab-link="operations">Operations</button>
@@ -67,6 +68,37 @@
             <tr><th>Name</th><th>Role</th><th>Contact</th><th>Details</th><th>Status</th><th>Actions</th></tr>
           </thead>
           <tbody id="members-body"><tr class="empty-row"><td colspan="6">Loading...</td></tr></tbody>
+        </table>
+      </section>
+
+      <!-- MENTORSHIP -->
+      <section class="admin-section" data-tab-panel="mentorship" hidden>
+        <div class="section-title-row">
+          <h2>Mentor Assignments</h2>
+        </div>
+        <form id="assignment-form" class="form-card" style="margin:0 0 28px;max-width:none">
+          <div class="two-col">
+            <div class="field">
+              <label>Mentor</label>
+              <select id="assign-mentor" required>
+                <option value="">Select an approved mentor…</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Kid / Mentee</label>
+              <select id="assign-kid" required>
+                <option value="">Select an approved kid…</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label>Notes <span class="hint">(optional)</span></label><input type="text" id="assign-notes" /></div>
+          <button type="submit" class="btn btn-gold btn-small">Assign Mentor</button>
+        </form>
+        <table class="data-table">
+          <thead>
+            <tr><th>Mentor</th><th>Kid / Mentee</th><th>Assigned</th><th>Status</th><th>Notes</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="assignments-body"><tr class="empty-row"><td colspan="6">Loading...</td></tr></tbody>
         </table>
       </section>
 
